@@ -1,8 +1,8 @@
 import { useState } from "react";
-import "./Login.css"
-import "../../App.css"
+import "./css/Login.css"
+import "../App.css"
 
-function App() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -10,7 +10,7 @@ function App() {
     e.preventDefault();
     const User = { email, password };
 
-    fetch("http://127.0.0.1:8000/api/users/", {
+    fetch("http://127.0.0.1:8000/users/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,4 +75,4 @@ function App() {
   );
 };
 
-export default App;
+export default Login;

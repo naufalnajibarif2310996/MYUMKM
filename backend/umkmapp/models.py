@@ -8,7 +8,6 @@ class User(models.Model):
         return self.email
 
 class Produk(models.Model):
-    id = models.AutoField(primary_key=True)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE, related_name="produks")
     nama_produk = models.CharField(max_length=100)
     status = models.CharField(max_length=50, choices=[("Tersedia", "Tersedia"), ("Tidak Tersedia", "Tidak Tersedia")])
@@ -20,7 +19,6 @@ class Produk(models.Model):
         return f"{self.nama_produk} - {self.kategori}"
 
 class Supplier(models.Model):
-    id = models.AutoField(primary_key=True)
     idProduk = models.ForeignKey(Produk, on_delete=models.CASCADE, related_name="suppliers")
     nama_supplier = models.CharField(max_length=100)
     alamat_supplier = models.TextField()
@@ -29,7 +27,6 @@ class Supplier(models.Model):
         return f"{self.nama_supplier} - {self.idProduk.nama_produk}"
 
 class Pelanggan(models.Model):
-    id = models.AutoField(primary_key=True)
     nama_pelanggan = models.CharField(max_length=100)
     alamat_pelanggan = models.TextField()
     idProduk = models.ForeignKey(Produk, on_delete=models.SET_NULL, null=True, blank=True, related_name="pelanggans")
@@ -38,7 +35,6 @@ class Pelanggan(models.Model):
         return f"{self.nama_pelanggan} - {self.idProduk.nama_produk if self.idProduk else 'No Product'}"
 
 class Pengiriman(models.Model):
-    id = models.AutoField(primary_key=True)
     idPelanggan = models.ForeignKey(Pelanggan, on_delete=models.CASCADE, related_name="pengirimans")
     tanggal_pengiriman = models.DateField()
     estimasi = models.CharField(max_length=50)  # Bisa menyimpan estimasi dalam format string, misalnya "2-3 Hari"
@@ -47,7 +43,6 @@ class Pengiriman(models.Model):
         return f"Pengiriman ke {self.idPelanggan.nama_pelanggan} pada {self.tanggal_pengiriman} (Estimasi: {self.estimasi})"
 
 class Penjualan(models.Model):
-    id = models.AutoField(primary_key=True)
     idProduk = models.ForeignKey(Produk, on_delete=models.CASCADE, related_name="penjualans")
     tanggal_penjualan = models.DateField()
     jumlah_terjual = models.PositiveIntegerField()
@@ -70,7 +65,6 @@ class Pembayaran(models.Model):
         ('EWALLET', 'E-Wallet'),
     ]
 
-    id = models.AutoField(primary_key=True)
     idPelanggan = models.ForeignKey(Pelanggan, on_delete=models.CASCADE, related_name="pembayarans")
     idPenjualan = models.ForeignKey(Penjualan, on_delete=models.CASCADE, related_name="pembayarans")
     tanggal = models.DateField(auto_now_add=True)

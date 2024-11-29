@@ -1,8 +1,13 @@
 import { useState } from "react";
-import Login from "./pages/login/Login"
+import Login from "./pages/Login";
+// import Penjualan from "./pages/Penjualan";
 
 function App() {
-  return <Login />;
+  return(
+    <> 
+      <Login />
+    </>
+  ); 
 }
 
 export default App;
