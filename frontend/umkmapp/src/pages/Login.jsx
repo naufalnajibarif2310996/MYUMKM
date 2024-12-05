@@ -1,30 +1,69 @@
-import { useState } from "react";
-import "./css/Login.css"
-import "../App.css"
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./css/Login.css";
+import "../App.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const login = (e) => {
+  useEffect(() => {
+    // Jika sudah ada token, arahkan ke dashboard
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      navigate("/Penjualan");
+    }
+  }, [navigate]);
+
+  const login = async (e) => {
     e.preventDefault();
-    const User = { email, password };
-
-    fetch("http://127.0.0.1:8000/users/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(User),
-    })
-      .then((data) => {
-        setEmail("");  
-        setPassword("");  
-        alert("Pendaftaran berhasil!");  
-      })
-      .catch((error) => {
-        alert("Pendaftaran gagal!"); 
+  
+    if (!email || !password) {
+      setErrorMessage("Email dan password harus diisi");
+      return;
+    }
+  
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (email && !emailRegex.test(email)) {
+      setErrorMessage("Format email tidak valid");
+      return;
+    }
+  
+    const userData = {
+      username_or_email: email,  // Pastikan ini sesuai dengan parameter API backend
+      password: password,
+    };
+  
+    try {
+      setLoading(true);
+      const response = await fetch("http://127.0.0.1:8000/api/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
       });
+  
+      setLoading(false);
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        localStorage.setItem("access_token", data.access);
+        localStorage.setItem("refresh_token", data.refresh);
+        alert("Login sukses!");
+        navigate("/dashboard");
+      } else {
+        setErrorMessage(data.detail || "Login gagal: Cek kembali email atau password");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error:", error);
+      setErrorMessage("Terjadi kesalahan pada server");
+    }
   };
 
   return (
@@ -32,47 +71,59 @@ function Login() {
       <h2 className="text-center">
         <b>Log In</b>
       </h2>
-      <form method="post" onSubmit={login}>
+      <form onSubmit={login}>
         <div className="mb-3">
-          <label for="exampleInputEmail1" className="form-label pt-3">
-            Email address
+          <label htmlFor="username_or_email" className="form-label pt-3">
+            Email address or Username
           </label>
           <input
-            type="email"
+            type="text"
             className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
+            id="username_or_email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email or username"
           />
         </div>
         <div className="mb-3">
-          <label for="exampleInputPassword1" className="form-label">
+          <label htmlFor="exampleInputPassword1" className="form-label">
             Password
           </label>
           <input
             type="password"
             className="form-control"
             id="exampleInputPassword1"
-            value={password} // Menghubungkan input ke state password
-            onChange={(e) => setPassword(e.target.value)} // Memperbarui state password saat input berubah
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
           />
         </div>
+
+        {errorMessage && (
+          <div
+            className="alert alert-danger"
+            role="alert"
+            aria-live="assertive"
+          >
+            {errorMessage}
+          </div>
+        )}
+
         <div id="Forgot" className="form-text mb-3 text-end">
-          <a href="#">Forgot Password</a>
+          <a href="/forgot-password">Forgot Password</a>
         </div>
         <div className="d-grid gap-2 pb-3">
-          <button className="btn btn-primary" type="submit">
-            Log In
+          <button className="btn btn-primary" type="submit" disabled={loading}>
+            {loading ? "Logging In..." : "Log In"}
           </button>
         </div>
       </form>
 
       <div id="make" className="form-text my-4 text-center">
-        Don't have an account? <a href="#">Sign Up</a>
+        Don't have an account? <a href="/signup">Sign Up</a>
       </div>
     </div>
   );
-};
+}
 
 export default Login;
