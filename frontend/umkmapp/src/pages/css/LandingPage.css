@@ -1,0 +1,133 @@
+  /* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px; /* Lebar scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Warna track scrollbar */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #007bff; /* Warna thumb scrollbar */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0056b3; /* Warna saat hover */
+}
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Navbar */
+  .navbar-nav .nav-link {
+    margin-right: 2rem;
+  }
+
+  .navbar-brand{
+    padding: 5.5rem;
+  }
+
+  .navbar {
+    max-width: 1360px;  
+    margin-left: -250px;    
+  }
+  
+  /* Hero Section */
+  .hero {
+    background: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem;
+  }
+  
+  .hero-content {
+    flex: 1;
+    margin-right: 2rem;
+  }
+  
+  .hero-image .img-fluid{
+    width: 500px;
+    height: 300px;
+    border-radius: 10px;
+    background: #f8f9fa;
+  }
+  
+  /* About Section */
+  .about {
+    background-color: #f8f9fa;
+  }
+  
+  .about-image img {
+    width: 500px;
+    height: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-text {
+    padding: 15px;
+  }
+  
+  /* Features Section */
+  .card img{
+    width: 100px;
+  }
+
+  .features .row{
+    justify-content: center;
+  }
+  
+  .features .col{
+    flex: 0 0 0;
+  }
+ 
+
+  
+  /* Footer */
+  footer {
+    background-color: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  footer .img-fluid{
+    height: 150px;
+    width: 150px;
+  }
+
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .navbar {
+      max-width: 680px;  
+      margin-left: -250px;    
+  
+    }
+
+    .hero {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .hero-content {
+      margin-right: 0;
+    }
+  
+    .about {
+      text-align: center;
+    }
+  
+    .about-text {
+      padding: 0;
+    }
+  
+    .about-image {
+      margin-bottom: 20px;
+    }
+  }
+  

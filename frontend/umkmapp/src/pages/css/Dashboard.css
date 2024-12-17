@@ -1,0 +1,77 @@
+/* Layout utama dashboard */
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw; /* Pastikan memenuhi seluruh viewport */
+  background-color: #f5f7fa;
+  margin: 50px 0 0 100px;
+}
+
+/* Konten dashboard */
+.dashboard-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* Susun elemen secara vertikal */
+  justify-content: flex-start; /* Konten dimulai dari atas */
+  align-items: stretch; /* Lebarkan elemen ke seluruh lebar */
+  padding: 20px;
+  background-color: #f5f7fa;
+  min-height: 100vh; /* Pastikan memenuhi tinggi layar */
+  overflow-x: hidden; /* Sembunyikan scroll horizontal */
+}
+
+/* Judul dashboard */
+.dashboard-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Subjudul dashboard */
+.dashboard-subtitle {
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Kontainer kartu dashboard */
+.dashboard-cards {
+  display: flex;
+  flex-wrap: wrap; /* Membuat kartu responsif */
+  justify-content: center; /* Pusatkan kartu secara horizontal */
+  align-items: center; /* Pusatkan kartu secara vertikal */
+  gap: 20px; /* Jarak antar kartu */
+  margin-top: 20px;
+}
+
+/* Kartu */
+.card {
+  display: flex;
+  flex-direction: column; /* Susun konten secara vertikal */
+  justify-content: center; /* Pusatkan konten vertikal */
+  align-items: center; /* Pusatkan konten horizontal */
+  width: 200px; /* Lebar tetap */
+  height: 150px; /* Tinggi tetap */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan ringan */
+  padding: 20px;
+  text-align: center;
+}
+
+/* Judul di dalam kartu */
+.card h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Isi di dalam kartu */
+.card p {
+  font-size: 22px;
+  font-weight: bold;
+  color: #007bff; /* Warna biru untuk angka */
+}

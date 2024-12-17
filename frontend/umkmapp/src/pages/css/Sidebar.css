@@ -1,0 +1,63 @@
+.sidebar-admin {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%; /* Kurangi tinggi Footer (misalnya 50px) */
+  width: 250px;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+  overflow-y: auto; /* Aktifkan scroll jika kontennya panjang */
+  z-index: 10;
+}
+
+.sidebar-header-admin {
+  background-color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.sidebar-logo-admin {
+  width: 150px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.sidebar-menu-admin {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-bottom: 60px; /* Tambahkan ruang untuk Footer */
+}
+
+.sidebar-menu-admin a {
+  text-decoration: none; /* Menghilangkan garis bawah pada link */
+}
+
+.sidebar-item-admin {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  color: #666;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-item-admin:hover {
+  background-color: #f5f7fa;
+}
+
+.sidebar-item-admin.active {
+  background-color: #e6f0ff;
+  color: #007bff;
+}
+
+.sidebar-icon-admin {
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+.sidebar-text-admin {
+  font-size: 1rem;
+}
+

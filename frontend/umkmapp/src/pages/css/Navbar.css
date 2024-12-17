@@ -1,0 +1,41 @@
+/* Navbar Container */
+.navbar {
+    position: fixed; /* Navbar tetap di atas saat scrolling */
+    top: 0;
+    left: 500px; 
+    /* Sesuai dengan lebar Sidebar */
+    right: 0;
+    height: 60px; /* Tinggi Navbar */
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000; /* Agar Navbar berada di atas konten lainnya */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  
+  /* Page Title */
+  .page-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Logout Button */
+  .btn-logout {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-logout:hover {
+    background-color: #0056b3;
+  }
+  

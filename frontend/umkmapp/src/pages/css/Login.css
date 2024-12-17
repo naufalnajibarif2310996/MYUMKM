@@ -1,4 +1,8 @@
-.container{
+.container-login{
   background-color: #e1e4e9;
-  width: 500px;
+}
+
+.row-login{
+  width: 400px;
+  padding: 40px;
 }

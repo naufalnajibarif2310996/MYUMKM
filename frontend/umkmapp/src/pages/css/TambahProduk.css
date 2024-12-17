@@ -1,0 +1,9 @@
+.TP-layout{
+    width: 800px;
+    padding: 100px 0px 100px 300px;
+    margin: 0 auto;
+}
+
+.TP-content h2{
+    text-align: center;
+}

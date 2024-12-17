@@ -1,0 +1,16 @@
+.Produk-admin{
+  text-align: center;
+  margin-top: 90px;
+  margin-left: 300px;
+  margin-right: 60px;
+}
+
+.btn-produk{
+  margin-left: 350px;
+}
+
+th {
+  background-color: #007BFF !important;
+  color: white !important;
+  font-weight: bold !important;
+}

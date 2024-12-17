@@ -1,34 +1,19 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  width: 500px;
-  /* text-align: center; */
-}
-
-label{
-  text-align: left;
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+body.landing-page, body.dashboard-page{
+    overflow-x: hidden;
   }
-  to {
-    transform: rotate(360deg);
+
+body.login-page{
+    height: 100%;  /* Pastikan body dan html mengambil seluruh tinggi layar */
+    margin: 0;     /* Hilangkan margin default */
+    display: flex;
+    justify-content: center; /* Menyelaraskan secara horizontal */
+    align-items: center;     /* Menyelaraskan secara vertikal */
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  body.signup-page{
+    margin-top: 200px;
+    padding-bottom: 200px;
+    display: flex;
+    justify-content: center; /* Menyelaraskan secara horizontal */
+    align-items: center;     /* Menyelaraskan secara vertikal */
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}

@@ -1,4 +1,77 @@
-.container {
-   margin: 1rem;
-  }
-  
+.penjualan-layout {
+   display: flex;
+   height: 100vh;
+   width: 100vw; /* Pastikan memenuhi seluruh viewport */
+   background-color: #f5f7fa;
+   justify-content: center; /* Horizontal centering */
+   align-items: center; /* Vertical centering */
+   padding-left: 250px;
+ }
+ 
+   
+ .penjualan-content {
+   flex: 1;
+   margin-left: 0; /* Hilangkan margin untuk memastikan posisi center */
+   margin-top: 0;
+   display: flex;
+   flex-direction: column; /* Agar elemen berurutan vertikal */
+   justify-content: center; /* Pusatkan vertikal */
+   align-items: center; /* Pusatkan horizontal */
+   padding: 20px;
+   background-color: #f5f7fa;
+   min-height: 100vh; /* Pastikan memenuhi tinggi layar */
+   overflow-x: hidden;
+ }
+ 
+   .penjualan-title {
+     font-size: 24px;
+     font-weight: bold;
+     color: #333;
+     text-align: center;
+     margin-bottom: 10px;
+   }
+   
+   .penjualan-subtitle {
+     font-size: 18px;
+     color: #666;
+     text-align: center;
+     margin-bottom: 20px;
+   }
+   
+   .penjualan-cards {
+     display: flex;
+     justify-content: center; /* Pusatkan secara horizontal */
+     align-items: center; /* Pusatkan secara vertikal */
+     gap: 20px; /* Jarak antar kartu */
+     margin-top: 20px;
+ }
+ 
+   
+ .card {
+   display: flex;
+   flex-direction: column; /* Untuk konten vertikal */
+   justify-content: center; /* Pusatkan konten vertikal */
+   align-items: center; /* Pusatkan konten horizontal */
+   width: 200px; /* Lebar tetap */
+   height: 150px; /* Tinggi tetap */
+   background-color: white;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   padding: 20px;
+   text-align: center;
+ }
+ 
+   
+   .card h3 {
+     font-size: 20px;
+     color: #333;
+     margin-bottom: 10px;
+   }
+   
+   .card p {
+     font-size: 22px;
+     font-weight: bold;
+     color: #007bff;
+   }
+   
+ 
