@@ -1,6 +1,6 @@
-body.landing-page, body.dashboard-page{
+/* body.landing-page, body.dashboard-page{
     overflow-x: hidden;
-  }
+  } */
 
 body.login-page{
     height: 100%;  /* Pastikan body dan html mengambil seluruh tinggi layar */
@@ -16,4 +16,9 @@ body.login-page{
     display: flex;
     justify-content: center; /* Menyelaraskan secara horizontal */
     align-items: center;     /* Menyelaraskan secara vertikal */
+  }
+
+  body.produk-page{
+    flex-grow: 1; /* Membuat div ini tumbuh untuk mengisi sisa ruang */
+    padding-bottom: 100px;
   }

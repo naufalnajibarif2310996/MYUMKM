@@ -1,22 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 function Setting() {
-  const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("johndoe@example.com");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleSaveChanges = () => {
-    // Validasi dan simulasikan penyimpanan perubahan
-    if (!name || !email || !password) {
-      alert("Semua kolom harus diisi!");
-      return;
-    }
-
-    alert("Perubahan berhasil disimpan!");
+  // Data dummy pengguna
+  const dummyUserData = {
+    username: "Najib",
+    email: "Najib@example.com",
   };
+
+  useEffect(() => {
+    setLoading(false);
+    setUserData(dummyUserData); // Menggunakan data dummy
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="dashboard-layout d-flex" style={{ height: "100vh" }}>
@@ -27,54 +38,45 @@ function Setting() {
         {/* Navbar */}
         <Navbar />
 
-        <div className="main-content d-flex flex-column align-items-center justify-content-center p-4">
+        <div className="main-content d-flex flex-column align-items-center justify-content-center">
           <h2 className="text-center mb-4 text-primary">Pengaturan Akun</h2>
 
-          {/* Formulir Pengaturan */}
-          <div className="settings-form" style={{ maxWidth: "800px", width: "100%" }}>
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Nama
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
+          {/* Card untuk Menampilkan Data Pengguna */}
+          <div
+            className="card"
+            style={{
+              maxWidth: "800px",
+              width: "100%",
+              overflow: "hidden",
+              height: "100%",
+            }}
+          >
+            <div className="card-body " 
+              style={{
+                width : "100%" }}>
+              
+              <h5 className="card-title" >
+                {userData?.username}
+              </h5>
 
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+              {/* Menampilkan Email pada satu baris penuh */}
+              <p
+                className="card-text"
+               
+              >
+                <strong>Email: </strong> {userData?.email}
+              </p>
 
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Kata Sandi
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              {/* Button Edit Profil */}
+              <div className="d-flex justify-content-center mt-4">
+                <button
+                  className="btn btn-warning"
+                  onClick={() => navigate("/edit-profile")}  // Navigasi ke halaman edit profil
+                >
+                  Edit Profil
+                </button>
+              </div>
             </div>
-
-            {/* Tombol Simpan */}
-            <button className="btn btn-primary mt-4" onClick={handleSaveChanges}>
-              Simpan Perubahan
-            </button>
           </div>
         </div>
 

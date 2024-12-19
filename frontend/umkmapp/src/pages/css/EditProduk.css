@@ -1,0 +1,10 @@
+label{
+    text-align: left;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.produkisi-admin {
+    flex-grow: 1; /* Membuat div ini tumbuh untuk mengisi sisa ruang */
+    padding-bottom: 100px; /* Menambahkan padding bottom agar konten tidak menempel ke footer */
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
@@ -19,6 +19,12 @@ function TambahProduk() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validasi input
+    if (!namaProduk || !kategori || !harga || !stok) {
+      setMessage("Semua kolom wajib diisi.");
+      return;
+    }
+
     // Membuat FormData untuk mengirim data
     const formData = new FormData();
     formData.append("nama", namaProduk);
@@ -26,6 +32,7 @@ function TambahProduk() {
     formData.append("harga", harga);
     formData.append("stok", stok);
     formData.append("status", status);
+
     if (gambar) {
       formData.append("gambar", gambar);
     }
@@ -41,10 +48,10 @@ function TambahProduk() {
     try {
       const response = await fetch("http://127.0.0.1:8000/produk/", {
         method: "POST",
-        body: formData,
         headers: {
-          "Authorization": `Bearer ${token}`, // Menambahkan token di header
+          Authorization: `Bearer ${token}`, // Menambahkan token di header
         },
+        body: formData, // Mengirim data sebagai FormData
       });
 
       const data = await response.json();
@@ -55,6 +62,7 @@ function TambahProduk() {
       } else {
         setMessage(data.detail || "Terjadi kesalahan, coba lagi.");
         console.error("Error response:", data);
+
         // Menangani kesalahan jika token tidak valid
         if (data.code === "token_not_valid") {
           setMessage("Token tidak valid, silakan login ulang.");
@@ -67,6 +75,16 @@ function TambahProduk() {
       console.error("Error adding product:", error);
     }
   };
+
+  useEffect(() => {
+            // Menambahkan kelas khusus untuk login page
+            document.body.classList.add('produk');
+            
+            // Membersihkan kelas setelah komponen unmount
+            return () => {
+              document.body.classList.remove('produk');
+            };
+          }, []);
 
   return (
     <div className="TP-layout">
@@ -88,6 +106,7 @@ function TambahProduk() {
                 id="namaProduk"
                 value={namaProduk}
                 onChange={(e) => setNamaProduk(e.target.value)}
+                required
               />
             </div>
             <div className="mb-3">
@@ -100,6 +119,7 @@ function TambahProduk() {
                 id="kategori"
                 value={kategori}
                 onChange={(e) => setKategori(e.target.value)}
+                required
               />
             </div>
             <div className="mb-3">
@@ -112,6 +132,7 @@ function TambahProduk() {
                 id="harga"
                 value={harga}
                 onChange={(e) => setHarga(e.target.value)}
+                required
               />
             </div>
             <div className="mb-3">
@@ -124,6 +145,7 @@ function TambahProduk() {
                 id="stok"
                 value={stok}
                 onChange={(e) => setStok(e.target.value)}
+                required
               />
             </div>
             <div className="mb-3">

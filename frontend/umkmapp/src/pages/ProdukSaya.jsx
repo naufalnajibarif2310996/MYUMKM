@@ -14,9 +14,6 @@ function ProdukSaya() {
   useEffect(() => {
     const token = localStorage.getItem("access_token");
 
-    // Debugging token
-    console.log("Token diambil dari localStorage:", token);
-
     if (!token) {
       setError("Token tidak ditemukan, silakan login terlebih dahulu.");
       setLoading(false);
@@ -33,8 +30,6 @@ function ProdukSaya() {
           },
         });
 
-        console.log("Status kode respons:", response.status);
-
         if (response.status === 401) {
           window.alert("Sesi Anda telah berakhir, silakan login ulang.");
           setError("Sesi Anda telah berakhir, silakan login ulang.");
@@ -48,8 +43,6 @@ function ProdukSaya() {
         }
 
         const data = await response.json();
-        console.log("Data produk:", data);
-
         setProdukList(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Kesalahan mengambil data:", err.message);
@@ -62,16 +55,43 @@ function ProdukSaya() {
     fetchProduk();
   }, [navigate]);
 
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("access_token");
+    const confirmation = window.confirm("Apakah Anda yakin ingin menghapus produk ini?");
+
+    if (confirmation) {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/produk/${id}/`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Hapus produk dari state setelah berhasil dihapus
+        setProdukList(produkList.filter((produk) => produk.id !== id));
+        alert("Produk berhasil dihapus.");
+      } catch (err) {
+        console.error("Kesalahan menghapus produk:", err.message);
+        alert("Terjadi kesalahan saat menghapus produk.");
+      }
+    }
+  };
+
+  
+
   return (
     <div className="Produk-admin">
-      {/* Sidebar */}
       <Sidebar />
 
       <div className="produkisi-admin">
-        {/* Navbar */}
         <Navbar />
 
-        {/* Main Content */}
         <div className="produk-content">
           <h3 className="judul-produk pb-4 fw-bold">Daftar Produk</h3>
 
@@ -80,9 +100,7 @@ function ProdukSaya() {
           ) : error ? (
             <p className="error">{error}</p>
           ) : produkList.length === 0 ? (
-            <p className="kata-produk">
-              Belum ada produk, silakan tambahkan produk baru.
-            </p>
+            <p className="kata-produk">Belum ada produk, silakan tambahkan produk baru.</p>
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-striped">
@@ -95,6 +113,7 @@ function ProdukSaya() {
                     <th>Harga</th>
                     <th>Stok</th>
                     <th>Status</th>
+                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -117,6 +136,20 @@ function ProdukSaya() {
                       <td>Rp {produk.harga.toLocaleString()}</td>
                       <td>{produk.stok}</td>
                       <td>{produk.status}</td>
+                      <td>
+                        <button
+                          className="btn btn-warning btn-sm me-2"
+                          onClick={() => navigate(`/editproduk/${produk.id}`)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDelete(produk.id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -124,7 +157,6 @@ function ProdukSaya() {
             </div>
           )}
 
-          {/* Tombol Tambah Produk */}
           <div className="row mt-3">
             <div className="col-8">
               <button
@@ -138,7 +170,6 @@ function ProdukSaya() {
         </div>
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

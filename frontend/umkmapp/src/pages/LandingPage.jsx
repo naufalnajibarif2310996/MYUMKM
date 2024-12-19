@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import card1 from "../assets/image-3.png";
 import "./css/LandingPage.css";
-import "../App.css"
+import "../App.css";
 
 const LandingPage = () => {
   useEffect(() => {
     // Menambahkan kelas khusus untuk landing page
-    document.body.classList.add('landing-page');
-    
+    document.body.classList.add("landing-page");
+
     // Membersihkan kelas setelah komponen unmount
     return () => {
-      document.body.classList.remove('landing-page');
+      document.body.classList.remove("landing-page");
     };
   }, []);
+
   return (
     <div>
       {/* Navbar */}
@@ -47,7 +48,7 @@ const LandingPage = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <div class="offcanvas-body">
+            <div class="offcanvas-body mt-4">
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-5">
                 <li class="nav-item">
                   <a class="nav-link" aria-current="page" href="#myumkm">
@@ -71,10 +72,10 @@ const LandingPage = () => {
                 </li>
               </ul>
               <div className="masuk">
-                <a href="/login" className="btn btn-outline-primary me-4">
+                <a href="/login" className="btn btn-outline-primary mb-4 me-4">
                   Log In
                 </a>
-                <a href="/signup" className="btn btn-primary">
+                <a href="/signup" className="btn btn-primary mb-4">
                   Daftar
                 </a>
               </div>
@@ -155,7 +156,6 @@ const LandingPage = () => {
                   >
                     Lebih lengkap
                   </button>
-
                   <div
                     className="modal fade"
                     id="staticBackdrop"

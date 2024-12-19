@@ -22,12 +22,16 @@
   }
   
   /* Navbar */
+  .navbar-expand-lg{
+    margin-left: -500px !important;
+  }
+
   .navbar-nav .nav-link {
     margin-right: 2rem;
   }
 
   .navbar-brand{
-    padding: 5.5rem;
+    padding: 4.25rem;
   }
 
   .navbar {
@@ -77,12 +81,16 @@
     width: 100px;
   }
 
+  .card-body{
+    width: 200px;
+  }
+
   .features .row{
     justify-content: center;
   }
   
   .features .col{
-    flex: 0 0 0;
+    flex:  0 0;
   }
  
 

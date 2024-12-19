@@ -88,9 +88,9 @@ class LoginView(APIView):
 
             # Tentukan redirect berdasarkan email atau role
             if user.email == "admin@gmail.com" or getattr(user, "role", None) == "ADMIN":
-                redirect_url = "dashboard/"  # URL dashboard admin
+                redirect_url = "/dashboard"  # URL dashboard admin
             else:
-                redirect_url = "beranda/"  # URL beranda user
+                redirect_url = "/beranda"  # URL beranda user
 
             return Response(
                 {
@@ -135,7 +135,8 @@ class ProdukViewSet(viewsets.ModelViewSet):
     parser_classes = [MultiPartParser, FormParser]
 
     def perform_create(self, serializer):
-        serializer.save(idUser=self.request.user)
+        serializer.save()  # self.request otomatis ditambahkan ke context oleh DRF
+
 
 
 class SupplierViewSet(viewsets.ModelViewSet):
@@ -161,3 +162,4 @@ class PembayaranViewSet(viewsets.ModelViewSet):
 class PendapatanViewSet(viewsets.ModelViewSet):
     queryset = Pendapatan.objects.all()
     serializer_class = PendapatanSerializer
+

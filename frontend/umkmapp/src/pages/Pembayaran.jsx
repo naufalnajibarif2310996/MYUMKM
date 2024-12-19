@@ -1,8 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./css/Pembayaran.css"; // Impor CSS khusus untuk halaman Pembayaran
+import "./css/Pembayaran.css"; 
+import Sidebar from "./Sidebar"; 
+import Navbar from "./Navbar"; 
 
-const Pembayaran = () => {
+const Pembayaran = ({ setPageTitle }) => {
   const navigate = useNavigate();
 
   // Fungsi untuk menavigasi ke halaman detail pembayaran
@@ -10,6 +12,7 @@ const Pembayaran = () => {
     navigate(`/pembayaran/${id}`); // Navigasi ke halaman detail pembayaran dengan ID
   };
 
+  // Dummy data pembayaran
   const dataPembayaran = [
     {
       id: "P001",
@@ -29,61 +32,68 @@ const Pembayaran = () => {
     },
   ];
 
-  return (
-    <div className="container">
-      <h2>Pembayaran</h2>
-      {/* Tombol untuk menambahkan pembayaran baru */}
-      <button
-        className="btn btn-primary"
-        onClick={() => navigate("/tambahpembayaran")}
-      >
-        Tambahkan Pembayaran
-      </button>
+  // Set judul halaman di Navbar
+  React.useEffect(() => {
+    if (setPageTitle) setPageTitle("Pembayaran");
+  }, [setPageTitle]);
 
-      {/* Tabel untuk menampilkan daftar pembayaran */}
-      <table>
-        <thead>
-          <tr>
-            <th>ID Pembayaran</th>
-            <th>Nama Pelanggan</th>
-            <th>Tanggal Pembayaran</th>
-            <th>Jumlah Pembayaran</th>
-            <th>Status Pembayaran</th>
-            <th>Metode Pembayaran</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* Mapping data pembayaran */}
-          {dataPembayaran.map((pembayaran) => (
-            <tr key={pembayaran.id}>
-              <td>{pembayaran.id}</td>
-              <td>{pembayaran.nama}</td>
-              <td>{pembayaran.tanggal}</td>
-              <td>{pembayaran.jumlah}</td>
-              <td
-                className={
-                  pembayaran.status === "Lunas"
-                    ? "status-lunas"
-                    : "status-pending"
-                }
-              >
-                {pembayaran.status}
-              </td>
-              <td>{pembayaran.metode}</td>
-              <td>
-                {/* Tombol untuk menavigasi ke halaman detail pembayaran */}
-                <button
-                  className="btn btn-info"
-                  onClick={() => handleDetailPembayaran(pembayaran.id)}
-                >
-                  Detail
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  return (
+    <div className="app-container">
+      {/* Sidebar */}
+      <Sidebar setPageTitle={setPageTitle} />
+
+      <div className="main-content">
+        {/* Navbar */}
+        <Navbar pageTitle="Pembayaran" />
+
+        {/* Kontainer utama halaman Pembayaran */}
+        <div className="container pembayaran-container">
+          {/* Tombol untuk menambahkan pembayaran */}
+
+          {/* Tabel daftar pembayaran */}
+          <table>
+            <thead>
+              <tr>
+                <th>ID Pembayaran</th>
+                <th>Nama Pelanggan</th>
+                <th>Tanggal Pembayaran</th>
+                <th>Jumlah Pembayaran</th>
+                <th>Status Pembayaran</th>
+                <th>Metode Pembayaran</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dataPembayaran.map((pembayaran) => (
+                <tr key={pembayaran.id}>
+                  <td>{pembayaran.id}</td>
+                  <td>{pembayaran.nama}</td>
+                  <td>{pembayaran.tanggal}</td>
+                  <td>{pembayaran.jumlah}</td>
+                  <td
+                    className={
+                      pembayaran.status === "Lunas"
+                        ? "status-lunas"
+                        : "status-pending"
+                    }
+                  >
+                    {pembayaran.status}
+                  </td>
+                  <td>{pembayaran.metode}</td>
+                  <td>
+                    <button
+                      className="btn btn-info"
+                      onClick={() => handleDetailPembayaran(pembayaran.id)}
+                    >
+                      Detail
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,31 @@
+.Pengaturan {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-left: 250px;
+  margin-top: 40px; 
+}
+
+.pengaturan-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.content {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  font-weight: bold;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}

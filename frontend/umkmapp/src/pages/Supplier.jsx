@@ -1,6 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Supplier.css";
+import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+
 
 const Supplier = () => {
   const navigate = useNavigate();
@@ -11,9 +15,8 @@ const Supplier = () => {
 
   return (
     <div className="supplier-page">
-      <button className="btn-tambah-supplier" onClick={handleTambahSupplier}>
-        🛒 Tambahkan Supplier
-      </button>
+      <Navbar/>
+      <Sidebar/>
       <table className="supplier-table">
         <thead>
           <tr>
@@ -47,6 +50,10 @@ const Supplier = () => {
           </tr>
         </tbody>
       </table>
+      <button className="btn-tambah-supplier mt-5" onClick={handleTambahSupplier}>
+        🛒 Tambahkan Supplier
+      </button>
+      <Footer/>
     </div>
   );
 };

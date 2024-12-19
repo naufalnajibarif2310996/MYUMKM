@@ -22,6 +22,7 @@ router.register(r'penjualan', PenjualanViewSet, basename='penjualan')
 router.register(r'pembayaran', PembayaranViewSet, basename='pembayaran')
 router.register(r'pendapatan', PendapatanViewSet, basename='pendapatan')
 
+
 # URL Patterns dengan versi API
 urlpatterns = [
     path('', include(router.urls)),  # Mengelompokkan endpoint API di bawah versi 1

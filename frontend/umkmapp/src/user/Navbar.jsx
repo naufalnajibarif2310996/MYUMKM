@@ -10,7 +10,7 @@ function Navbar() {
     switch (location.pathname) {
       case "/beranda":
         return "Beranda";
-      case "/checkout":
+      case "/checkout/:id":
         return "Checkout";
       case "/payment":
         return "Payment";
@@ -34,7 +34,7 @@ function Navbar() {
   return (
     <nav className="navbar navbar-light bg-light px-3 d-flex justify-content-between align-items-center">
       <h3 className="page-title text-primary m-0">{getPageTitle()}</h3>
-      <button className="btn btn-primary" onClick={handleLogout}>
+      <button className="btn btn-primary mt-2" onClick={handleLogout}>
         Keluar
       </button>
     </nav>

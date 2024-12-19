@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = '__all__'
 
     def create(self, validated_data):
         # Gunakan create_user untuk mengenkripsi password dan membuat user
@@ -22,12 +22,22 @@ class UserSerializer(serializers.ModelSerializer):
 class ProdukSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produk
-        fields = '__all__'
-        
-    def create(self, validated_data):
-        user = self.context['request'].user  # Mendapatkan user yang sedang terautentikasi
-        validated_data['idUser'] = user
-        return super().create(validated_data)
+        fields = ['id', 'nama', 'kategori', 'harga', 'stok', 'status', 'gambar', 'idUser']
+        read_only_fields = ['idUser']  # idUser akan otomatis diisi
+
+    def update(self, instance, validated_data):
+        # Jika gambar tidak diunggah, tetap gunakan gambar yang ada
+        gambar = validated_data.get('gambar', instance.gambar)
+        instance.nama = validated_data.get('nama', instance.nama)
+        instance.kategori = validated_data.get('kategori', instance.kategori)
+        instance.harga = validated_data.get('harga', instance.harga)
+        instance.stok = validated_data.get('stok', instance.stok)
+        instance.status = validated_data.get('status', instance.status)
+        instance.gambar = gambar
+        instance.save()
+        return instance
+
+
 
 # Serializer untuk model Supplier
 class SupplierSerializer(serializers.ModelSerializer):

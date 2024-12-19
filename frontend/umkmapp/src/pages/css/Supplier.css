@@ -1,6 +1,6 @@
 .supplier-page {
     padding: 20px;
-    margin-left: 50px;
+    margin-left: 250px;
     margin-top: 50px;
   }
   
@@ -15,6 +15,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 400px;
   }
   
   .btn-tambah-supplier:hover {

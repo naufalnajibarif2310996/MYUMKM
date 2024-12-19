@@ -11,14 +11,22 @@ function Navbar() {
     switch (location.pathname) {
       case "/dashboard":
         return "Halaman Utama";
-      case "/penjualan":
-        return "Penjualan";
       case "/produk":
         return "Produk Saya";
+      case "/penjualan":
+        return "Penjualan";
+      case "/pelanggan":
+        return "Pelanggan";
+      case "/supplier":
+        return "Supplier";
+      case "/pembayaran":
+        return "Pembayaran";
+      case "/pengiriman":
+        return "Pengiriman";
       case "/tambahproduk":
         return "Tambah Produk";
-      case "/profil":
-        return "Profil Pelapak";
+      case "/pengaturan":
+        return "Pengaturan";
       default:
         return "MYUMKM"; // Default jika path tidak dikenali
     }
@@ -38,13 +46,11 @@ function Navbar() {
   return (
     <nav className="navbar navbar-light bg-light">
       <div className="navbar-left">
-        <h3 className="page-title text-primary m-0">{getPageTitle()}</h3> {/* Menampilkan judul halaman */}
+        <h3 className="page-title text-primary">{getPageTitle()}</h3>{" "}
+        {/* Menampilkan judul halaman */}
       </div>
-      <div className="navbar-right">
-        <button
-          className="btn btn-primary"
-          onClick={handleLogout}
-        >
+      <div className="navbar-right mt-2">
+        <button className="btn btn-primary" onClick={handleLogout}>
           Keluar
         </button>
       </div>

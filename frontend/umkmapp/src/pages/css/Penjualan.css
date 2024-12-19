@@ -1,11 +1,9 @@
 .penjualan-layout {
-   display: flex;
    height: 100vh;
    width: 100vw; /* Pastikan memenuhi seluruh viewport */
    background-color: #f5f7fa;
-   justify-content: center; /* Horizontal centering */
-   align-items: center; /* Vertical centering */
    padding-left: 250px;
+   padding-top: 50px;
  }
  
    
@@ -15,8 +13,6 @@
    margin-top: 0;
    display: flex;
    flex-direction: column; /* Agar elemen berurutan vertikal */
-   justify-content: center; /* Pusatkan vertikal */
-   align-items: center; /* Pusatkan horizontal */
    padding: 20px;
    background-color: #f5f7fa;
    min-height: 100vh; /* Pastikan memenuhi tinggi layar */
@@ -73,5 +69,15 @@
      font-weight: bold;
      color: #007bff;
    }
+
+   .status-lunas {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .status-belum-lunas {
+    color: orange;
+    font-weight: bold;
+  }
    
  
