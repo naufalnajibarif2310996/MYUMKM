@@ -1,111 +1,228 @@
-import { useEffect, useState } from "react";
-import React from "react";
-import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
-import Footer from "./Footer"; // Import footer
-import { useNavigate } from "react-router-dom"; // Import useNavigate untuk redirect
-import "./css/Dashboard.css";
-import "../App.css";
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { 
+  Package, 
+  Users, 
+  TrendingUp, 
+  DollarSign,
+  ShoppingCart,
+  AlertCircle
+} from "lucide-react";
+import Layout from "../components/layout/Layout";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
-function Dashboard() {
-  const navigate = useNavigate(); // Inisialisasi useNavigate
-  const [totalProducts, setTotalProducts] = useState(0); // State untuk jumlah produk
-  const [totalUsers, setTotalUsers] = useState(0); // State untuk jumlah pengguna
-  const [loadingProducts, setLoadingProducts] = useState(true); // State untuk loading data produk
-  const [loadingUsers, setLoadingUsers] = useState(true); // State untuk loading data pengguna
-  const [error, setError] = useState(""); // State untuk menangani error
+const StatCard = ({ title, value, icon: Icon, color, trend, loading }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="card p-6"
+    >
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+            {title}
+          </p>
+          <div className="flex items-center mt-2">
+            {loading ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                {value}
+              </p>
+            )}
+            {trend && (
+              <span className={`ml-2 text-sm ${trend > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {trend > 0 ? '+' : ''}{trend}%
+              </span>
+            )}
+          </div>
+        </div>
+        <div className={`p-3 rounded-full ${color}`}>
+          <Icon className="w-6 h-6 text-white" />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
-  // Mengambil data produk dan pengguna saat komponen dimuat
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalUsers: 0,
+    totalSales: 0,
+    totalRevenue: 0
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   useEffect(() => {
-    const token = localStorage.getItem("access_token"); // Ambil token dari localStorage
+    const token = localStorage.getItem("access_token");
 
     if (!token) {
       setError("Anda harus login terlebih dahulu.");
-      alert("Anda harus login terlebih dahulu!"); // Tampilkan alert sebelum redirect
-      navigate("/login"); // Redirect ke halaman login jika token tidak ada
-      return; // Jangan lanjutkan jika token tidak ada
+      navigate("/login");
+      return;
     }
 
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/produk/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Kirim token di header
-          },
-        });
+        const [productsRes, usersRes] = await Promise.all([
+          fetch("http://127.0.0.1:8000/produk/", {
+            headers: { Authorization: `Bearer ${token}` }
+          }),
+          fetch("http://127.0.0.1:8000/users/", {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+        ]);
 
-        if (!response.ok) {
-          throw new Error("Gagal mengambil data produk.");
+        if (!productsRes.ok || !usersRes.ok) {
+          throw new Error("Gagal mengambil data");
         }
 
-        const data = await response.json();
-        setTotalProducts(data.length); // Menyimpan jumlah produk
+        const [products, users] = await Promise.all([
+          productsRes.json(),
+          usersRes.json()
+        ]);
+
+        setStats({
+          totalProducts: products.length,
+          totalUsers: users.length,
+          totalSales: 156, // Mock data
+          totalRevenue: 2450000 // Mock data
+        });
       } catch (err) {
-        setError(err.message); // Menangani error
+        setError(err.message);
       } finally {
-        setLoadingProducts(false); // Menandakan bahwa data produk sudah selesai diambil
+        setLoading(false);
       }
     };
 
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/users/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Kirim token di header
-          },
-        });
+    fetchData();
+  }, [navigate]);
 
-        if (!response.ok) {
-          throw new Error("Gagal mengambil data pengguna.");
-        }
+  const statCards = [
+    {
+      title: "Total Produk",
+      value: stats.totalProducts,
+      icon: Package,
+      color: "bg-blue-500",
+      trend: 12
+    },
+    {
+      title: "Total Pengguna",
+      value: stats.totalUsers,
+      icon: Users,
+      color: "bg-green-500",
+      trend: 8
+    },
+    {
+      title: "Penjualan Bulan Ini",
+      value: stats.totalSales,
+      icon: ShoppingCart,
+      color: "bg-purple-500",
+      trend: -3
+    },
+    {
+      title: "Pendapatan",
+      value: `Rp ${stats.totalRevenue.toLocaleString()}`,
+      icon: DollarSign,
+      color: "bg-yellow-500",
+      trend: 15
+    }
+  ];
 
-        const data = await response.json();
-        setTotalUsers(data.length); // Menyimpan jumlah pengguna
-      } catch (err) {
-        setError(err.message); // Menangani error
-      } finally {
-        setLoadingUsers(false); // Menandakan bahwa data pengguna sudah selesai diambil
-      }
-    };
-
-    fetchProducts();
-    fetchUsers();
-  }, [navigate]); // Menambahkan navigate ke dependency array
-
-  return (
-    <div className="dashboard-layout d-flex">
-      <Sidebar />
-      <div className="dashboard-content flex-grow-1 d-flex flex-column">
-        <Navbar />
-        <div className="main-content flex-grow-1 p-4">
-          <p className="dashboard-subtitle text-muted">
-            Selamat Datang, <strong>Pelapak!</strong>
-          </p>
-
-          <div className="dashboard-cards row mt-4">
-            <div className="card col-md-6 p-3 mb-3 shadow-sm">
-              <h3 className="card-title text-secondary">Total Produk</h3>
-              <p className="card-text fs-4 fw-bold">
-                {loadingProducts ? "Memuat..." : error ? error : totalProducts}
-              </p>
-            </div>
-
-            <div className="card col-md-6 p-3 mb-3 shadow-sm">
-              <h3 className="card-title text-secondary">Total Pengguna</h3>
-              <p className="card-text fs-4 fw-bold">
-                {loadingUsers ? "Memuat..." : error ? error : totalUsers}
-              </p>
-            </div>
+  if (error) {
+    return (
+      <Layout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <p className="text-red-600 dark:text-red-400">{error}</p>
           </div>
         </div>
-        <Footer />
+      </Layout>
+    );
+  }
+
+  return (
+    <Layout>
+      <div className="space-y-6">
+        {/* Welcome Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="card p-6"
+        >
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+            Selamat Datang di Dashboard
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            Kelola bisnis UMKM Anda dengan mudah dan efisien
+          </p>
+        </motion.div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {statCards.map((stat, index) => (
+            <motion.div
+              key={stat.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <StatCard {...stat} loading={loading} />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Quick Actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="card p-6"
+        >
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+            Aksi Cepat
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button
+              onClick={() => navigate('/tambahproduk')}
+              className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary-500 dark:hover:border-primary-400 transition-colors group"
+            >
+              <Package className="w-8 h-8 text-gray-400 group-hover:text-primary-500 mx-auto mb-2" />
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-primary-500">
+                Tambah Produk Baru
+              </p>
+            </button>
+            
+            <button
+              onClick={() => navigate('/pelanggan')}
+              className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary-500 dark:hover:border-primary-400 transition-colors group"
+            >
+              <Users className="w-8 h-8 text-gray-400 group-hover:text-primary-500 mx-auto mb-2" />
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-primary-500">
+                Lihat Pelanggan
+              </p>
+            </button>
+            
+            <button
+              onClick={() => navigate('/penjualan')}
+              className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary-500 dark:hover:border-primary-400 transition-colors group"
+            >
+              <TrendingUp className="w-8 h-8 text-gray-400 group-hover:text-primary-500 mx-auto mb-2" />
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-primary-500">
+                Laporan Penjualan
+              </p>
+            </button>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </Layout>
   );
-}
+};
 
 export default Dashboard;
